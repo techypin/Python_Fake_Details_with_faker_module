@@ -1,4 +1,5 @@
 from faker import Factory
+import json
 
 
 
@@ -8,9 +9,14 @@ fake = Factory.create('en-IN')
 names = []
 
 for _ in range(50):
-	names.append(fake.name().replace(' ', '_'))
+	temp = {}
+	temp['name'] = fake.name()
+	temp['address'] = fake.address()
+	temp['city'] = fake.city_name()
+	temp['country'] = fake.country()
+	temp['pincode'] = fake.postcode()
 
-with open('names.txt', 'a') as file:
-	for i in names:
-		file.write(i+'\n')
-	print("Done...")
+	names.append(temp)
+
+with open('data.json', 'w') as file:
+	json.dump(names, file, indent=3)
